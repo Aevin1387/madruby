@@ -62,7 +62,7 @@ group :development, :test do
   gem "zeus"
 end
 
-gem "devise", '3.0.0.rc'
+gem "devise", "~> 3.0.0"
 
 
 
