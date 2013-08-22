@@ -4,7 +4,7 @@ class Trip < ActiveRecord::Base
 
   validates_presence_of :description, :start_date, :end_date, :price, :tag_line
 
-  def calculate_fee(amount)
+  def calculate_fee(discounted_price, amount)
     trip_fee(amount) + time_fee
   end
 

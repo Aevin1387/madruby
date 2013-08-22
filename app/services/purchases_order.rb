@@ -1,6 +1,7 @@
 class PurchasesOrder
-  def initialize(trip_id, hotel_id, activity_ids, length_of_stay)
+  def initialize(trip_id, hotel_id, activity_ids, length_of_stay, coupon_code)
     @trip_id, @hotel_id, @activity_ids, @length_of_stay = trip_id, hotel_id, activity_ids, length_of_stay
+    @coupon_code = coupon_code
   end
 
   def trip
@@ -32,14 +33,18 @@ class PurchasesOrder
   end
 
   def add_line_item(buyable, unit_price, amount)
-    extended_price = unit_price * amount
-    processing_fee = buyable.calculate_fee(amount)
+    discount = DiscountCalculator.new(buyable, @coupon_code).discount_amount
+    discounted_price = unit_price - discount
+    extended_price = discounted_price * amount
+    processing_fee = extended_price > 0 ? buyable.calculate_fee(discounted_price, amount) : 0
+
     order.order_line_items.new(buyable: buyable,
       unit_price: unit_price,
       amount: amount,
       extended_price: extended_price,
       processing_fee: processing_fee,
-      price_paid: extended_price + processing_fee
+      price_paid: extended_price + processing_fee,
+      discount: discount
       )
   end
 
