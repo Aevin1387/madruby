@@ -4,11 +4,11 @@ class Order < ActiveRecord::Base
   belongs_to :user
 
   def trip_item
-    order_line_items.where(buyable_type: "Trip").first
+    order_line_items.find_by(buyable_type: "Trip")
   end
 
   def hotel_item
-    order_line_items.where(buyable_type: "Hotel").first
+    order_line_items.find_by(buyable_type: "Hotel")
   end
 
   def activity_items
