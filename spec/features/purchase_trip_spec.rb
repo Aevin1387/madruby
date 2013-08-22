@@ -58,13 +58,16 @@ describe "purchasing a trip" do
     expect(order.trip_item.unit_price).to eq(1200)
     expect(order.trip_item.amount).to eq(1)
     expect(order.trip_item.extended_price).to eq(1200)
+    expect(order.trip_item.processing_fee).to eq(13)
     expect(order.hotel_item.unit_price).to eq(500)
     expect(order.hotel_item.amount).to eq(4)
     expect(order.hotel_item.extended_price).to eq(2000)
+    expect(order.hotel_item.processing_fee).to eq(40)
     expect(order.activity_items.first.unit_price).to eq(400)
     expect(order.activity_items.first.amount).to eq(1)
     expect(order.activity_items.first.extended_price).to eq(400)
-    expect(order.total_price_paid).to eq(3600)
+    expect(order.activity_items.first.processing_fee).to eq(5)
+    expect(order.total_price_paid).to eq(3658)
   end
 
 end
