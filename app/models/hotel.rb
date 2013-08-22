@@ -2,7 +2,7 @@ class Hotel < ActiveRecord::Base
   belongs_to :trip
 
   def calculate_fee(days)
-     price_fee * days
+     price_fee
   end
 
   def price_fee

@@ -24,7 +24,7 @@ class PurchasesOrder
   end
 
   def hotel_fee(hotel, amount)
-    (hotel.price > 250 ? 10 : 0) * amount
+    (hotel.price > 250 ? 10 : 0)
   end
 
   def activity_fee(activity, amount)
