@@ -32,17 +32,19 @@ class PurchasesOrder
   end
 
   def add_line_item(buyable, unit_price, amount)
+    extended_price = unit_price * amount
+    processing_fee = buyable.calculate_fee(amount)
     order.order_line_items.new(buyable: buyable,
       unit_price: unit_price,
       amount: amount,
-      extended_price: unit_price * amount,
-      processing_fee: self.send(buyable.class.to_s.downcase + "_fee", buyable, amount)
-      # processing_fee: buyable.calculate_fee(amount)
+      extended_price: extended_price,
+      processing_fee: processing_fee,
+      price_paid: extended_price + processing_fee
       )
   end
 
   def total_price(order)
-    order.order_line_items.map{ |item| item.extended_price + item.processing_fee }.sum
+    order.order_line_items.map(&:price_paid).sum
   end
 
   def run
